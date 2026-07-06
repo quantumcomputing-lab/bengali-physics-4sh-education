@@ -733,6 +733,7 @@ a   { text-decoration: none; color: inherit; }
 .btn-submit:hover { background: var(--saffron-dk); }
 .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
 .form-note { font-family: var(--font-sans); font-size: 0.82rem; color: rgba(255,255,255,0.75); margin-top: 0.5rem; }
+.form-note[lang="bn"] { font-family: var(--font-bengali); }
 .form-success { font-family: var(--font-sans); font-size: 1.1rem; color: rgba(255,255,255,0.85); padding: 1.5rem 0; }
 .contact-mobile { color: var(--saffron) !important; font-weight: 700 !important; }
 
