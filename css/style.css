@@ -323,6 +323,7 @@ a   { text-decoration: none; color: inherit; }
     margin-bottom: 1rem;
 }
 .topic-slab .topic-text p:last-child { margin-bottom: 0; }
+.topic-slab .topic-text[lang="bn"] p { font-family: var(--font-bengali); }
 
 /* Between-topic milestone — a proper pause between one topic and the
    next. Four fading bars stacked tightly read as one thicker, simpler
