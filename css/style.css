@@ -23,6 +23,7 @@
     --font-sans:   'Helvetica Neue', Helvetica, Arial, sans-serif;
     --font-serif:  Georgia, 'Times New Roman', serif;
     --font-body:   Georgia, 'Times New Roman', serif;
+    --font-bengali:'Hind Siliguri', 'Noto Sans Bengali', 'Vrinda', sans-serif;
     --transition:  0.3s ease;
 }
 
@@ -525,6 +526,8 @@ a   { text-decoration: none; color: inherit; }
     margin-bottom: 1rem;
 }
 .slab-first .slab-text p:last-child { margin-bottom: 0; }
+.slab-first .slab-text[lang="bn"] h1,
+.slab-first .slab-text[lang="bn"] p { font-family: var(--font-bengali); }
 .slab-first .pull-quote {
     border-left-color: var(--saffron);
     color: #ffffff;
