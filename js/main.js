@@ -78,34 +78,11 @@ const sectionObserver = new IntersectionObserver((entries) => {
 
 sections.forEach(s => sectionObserver.observe(s));
 
-// ── Contact Form (Formspree AJAX) ──
-[['contactForm1', 'contactSuccess1']].forEach(([formId, successId]) => {
-    const form    = document.getElementById(formId);
-    const success = document.getElementById(successId);
-    form?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const btn = form.querySelector('.btn-submit');
-        const originalText = btn.textContent;
-        btn.disabled = true;
-        btn.textContent = 'Sending…';
-        try {
-            const res = await fetch(form.action, {
-                method: 'POST',
-                body: new FormData(form),
-                headers: { 'Accept': 'application/json' }
-            });
-            if (res.ok) {
-                form.hidden = true;
-                success.hidden = false;
-            } else {
-                btn.disabled = false;
-                btn.textContent = originalText;
-                alert('Something went wrong. Please try again.');
-            }
-        } catch {
-            btn.disabled = false;
-            btn.textContent = originalText;
-            alert('Something went wrong. Please try again.');
+// ── Click-to-WhatsApp CTA click tracking ──
+document.querySelectorAll('.btn-whatsapp').forEach(btn => {
+    btn.addEventListener('click', () => {
+        if (typeof gtag === 'function') {
+            gtag('event', 'whatsapp_click', { event_category: 'contact', event_label: btn.closest('section')?.id || 'contact' });
         }
     });
 });
