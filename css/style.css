@@ -370,6 +370,7 @@ a   { text-decoration: none; color: inherit; }
     font-family: var(--font-sans);
     font-size: 1rem;
     font-weight: 600;
+    text-align: center;
     padding: 0.9rem 2rem;
     border-radius: 4px;
     margin-top: 2rem;
