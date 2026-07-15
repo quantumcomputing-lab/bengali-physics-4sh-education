@@ -1,12 +1,21 @@
 #!/usr/bin/env python3
 """
-Standing rule: any full sentence containing the standalone Bengali word
-কেন ("why") gets wrapped in <strong class="q-why">...</strong> so it
-renders bold + dark blue (see .q-why in css/style.css).
+Standing rule: any full sentence containing BOTH the standalone Bengali
+word কেন ("why") AND a question mark gets wrapped in
+<strong class="q-why">...</strong> so it renders bold + dark blue (see
+.q-why in css/style.css).
 
-Idempotent — safe to re-run after adding new chapters. Only touches
-<p>...</p> blocks that contain Bengali script text; everything else
-(English paragraphs, nav, footer, JSON-LD) is left untouched.
+কেন alone is not enough — it's also used idiomatically/declaratively
+without asking a question, e.g. "যত জোরেই হোক না কেন" ("no matter how
+hard") or "Friction কেন হয়, সেটা আমরা জানি।" (declarative, ends in ।).
+Only sentences that are actually asking "why...?" get bolded.
+
+Fully re-derives the wrapping on every run (first strips any existing
+<strong class="q-why"> wraps, then reapplies from current rules), so
+it's safe to re-run after both adding new chapters AND after changing
+this rule itself. Only touches <p>...</p> blocks that contain Bengali
+script text; everything else (English paragraphs, nav, footer,
+JSON-LD) is left untouched.
 
 Usage: python3 scripts/highlight-keno.py
 """
@@ -30,11 +39,15 @@ SENTENCE = re.compile(r"[^।?!]+[।?!]+\s*")
 # Matches a whole <p ...>...</p> block, non-greedy, across newlines.
 P_TAG = re.compile(r"(<p(?:\s+[^>]*)?>)(.*?)(</p>)", re.S)
 
-ALREADY_WRAPPED = re.compile(r'<strong class="q-why">')
+EXISTING_WRAP = re.compile(r'<strong class="q-why">(.*?)</strong>', re.S)
+
+
+def should_highlight(sentence: str) -> bool:
+    return bool(KENO.search(sentence)) and "?" in sentence
 
 
 def highlight_sentence(sentence: str) -> str:
-    if not KENO.search(sentence):
+    if not should_highlight(sentence):
         return sentence
     # Split off trailing whitespace so the wrap hugs the punctuation, not the newline.
     stripped = sentence.rstrip()
@@ -43,10 +56,11 @@ def highlight_sentence(sentence: str) -> str:
 
 
 def process_paragraph_text(text: str) -> str:
+    # Always unwrap first so a rule change (or a sentence edit) is
+    # correctly reflected rather than left stale from a previous run.
+    text = EXISTING_WRAP.sub(lambda m: m.group(1), text)
     if not HAS_BENGALI.search(text) or not KENO.search(text):
         return text
-    if ALREADY_WRAPPED.search(text):
-        return text  # idempotent: skip paragraphs already processed
     return SENTENCE.sub(lambda m: highlight_sentence(m.group(0)), text)
 
 
