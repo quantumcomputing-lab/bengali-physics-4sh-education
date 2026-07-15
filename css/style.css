@@ -11,6 +11,7 @@
     --crimson-dk:  #8C1829;
     --dark-red:    #8B1E1E;
     --dark-red-dk: #6B1515;
+    --dark-blue:   #1A3A7A;
     --charcoal:    #1E1E1E;
     --body-text:   #2D2D2D;
     --muted:       #666666;
@@ -324,6 +325,10 @@ a   { text-decoration: none; color: inherit; }
 }
 .topic-slab .topic-text p:last-child { margin-bottom: 0; }
 .topic-slab .topic-text[lang="bn"] p { font-family: var(--font-bengali); }
+
+/* Any full sentence containing কেন ("why") is bolded in dark blue —
+   standing rule for every chapter, applied via scripts/highlight-keno.py. */
+.q-why { color: var(--dark-blue); font-weight: 700; }
 
 /* Between-topic milestone — a proper pause between one topic and the
    next. Four fading bars stacked tightly read as one thicker, simpler
